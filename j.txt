@@ -1,0 +1,116 @@
+package feedback.android.app;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+public class FeedbackActivity extends Activity implements View.OnClickListener,	AdapterView.OnItemSelectedListener,CompoundButton.OnCheckedChangeListener{
+    
+    EditText mainText;
+    Button mainSubmit,seSubmit,thirdSubmit;
+    
+    Spinner spin;
+    String[] prof={"priya","chandana","bhramini"};
+    CheckBox thiGood,thiBad,thiExcellent;
+    
+    int index;
+    String s;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+        FirstPage();
+    }
+    public void FirstPage()
+    {
+    	setContentView(R.layout.main);
+    	mainText=(EditText)findViewById(R.id.maintext1);
+    	mainSubmit=(Button)findViewById(R.id.mainsignin);
+    	mainSubmit.setOnClickListener(this);
+    }
+    public void SecondPage()
+    {
+    	setContentView(R.layout.second);
+    	
+    	spin=(Spinner)findViewById(R.id.maintext2);
+    	seSubmit=(Button)findViewById(R.id.sesubmit);
+    	ArrayAdapter<String> ad=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,prof);
+    	spin.setAdapter(ad);
+    	spin.setOnItemSelectedListener(this);
+    	seSubmit.setOnClickListener(this);
+    	
+    }
+    public void ThirdPage()
+    {
+    	setContentView(R.layout.third);
+    	
+    	thiGood=(CheckBox)findViewById(R.id.thigood);
+    	thiBad=(CheckBox)findViewById(R.id.thibad);
+    	thiExcellent=(CheckBox)findViewById(R.id.thiexcellent);
+    	thirdSubmit=(Button)findViewById(R.id.thirdsubmit);
+    	thiGood.setOnCheckedChangeListener(this);
+    	thiBad.setOnCheckedChangeListener(this);
+    	thiExcellent.setOnCheckedChangeListener(this);
+    	thirdSubmit.setOnClickListener(this);
+    }
+    public void onItemSelected(AdapterView<?> v,View v1,int pos,long id)
+    {
+    	index=pos;
+    }
+    public void onNothingSelected(AdapterView<?> v)
+    {
+    }
+    public void onCheckedChanged(CompoundButton but,boolean che)
+    {
+    	if(che)
+    	{
+    		if(but==thiGood)
+    		{
+    			thiBad.setChecked(false);
+    			thiExcellent.setChecked(false);
+    			s=thiGood.getText().toString();
+    		}
+    		if(but==thiBad)
+    		{
+    			thiGood.setChecked(false);
+    			thiExcellent.setChecked(false);
+    			s=thiBad.getText().toString();
+    		}
+    		if(but==thiExcellent)
+    		{
+    			thiGood.setChecked(false);
+    			thiBad.setChecked(false);
+    			s=thiExcellent.getText().toString();
+    		}
+    	}
+    }
+    public void onClick(View v)
+    {
+    	if(v==mainSubmit)
+    		SecondPage();
+    	if(v==seSubmit)
+    		ThirdPage();
+    	if(v==thirdSubmit)
+    	{
+    		String u=mainText.getText().toString();
+    		FirstPage();
+    		Toast.makeText(getBaseContext(),u + " has selected " + prof[index] +" as a " + s,Toast.LENGTH_LONG).show();
+    	}
+    	
+    }
+}			
+    		
+
+    	
+    	
+    	
+    	
+    	
+    
